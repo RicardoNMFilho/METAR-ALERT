@@ -1,4 +1,5 @@
 const {chromium, firefox, webkit} = require('playwright');
+const moment = require('moment');
 
 (async () => {
     const browser = await chromium.launch();
@@ -8,7 +9,8 @@ const {chromium, firefox, webkit} = require('playwright');
     await page.locator("#msg_localidade").fill("SBEG");
     await page.locator("#consulta_recente").click();
 
-    
+    await page.locator("#consulta_data_ini").fill(moment().add(3, 'hours').format("DD/MM/YYYY HH:00"));
+    await page.locator("#consulta_data_fim").fill(moment().add(3, 'hours').format("DD/MM/YYYY HH:00"));
 
     await page.locator("#consulta_localidade").click();
     await page.screenshot({path: "screenshot.png"});
