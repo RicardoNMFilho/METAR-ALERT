@@ -1,7 +1,7 @@
 const {chromium, firefox, webkit} = require('playwright');
 const moment = require('moment');
 
-(async () => {
+async function Colect() {
     const browser = await chromium.launch();
     const page = await browser.newPage();
     await page.goto('https://www.redemet.aer.mil.br/old/?i=produtos&p=consulta-de-mensagens-opmet');
@@ -16,4 +16,6 @@ const moment = require('moment');
     await page.screenshot({path: "screenshot.png"});
 
     await browser.close();
-})();
+}
+
+Colect();
