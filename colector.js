@@ -1,7 +1,7 @@
 const {chromium, firefox, webkit} = require('playwright');
 const moment = require('moment');
 
-async function Colect() {
+const colect = async function Colect() {
     const browser = await chromium.launch();
     const page = await browser.newPage();
     await page.goto('https://www.redemet.aer.mil.br/old/?i=produtos&p=consulta-de-mensagens-opmet');
@@ -13,9 +13,20 @@ async function Colect() {
     await page.locator("#consulta_data_fim").fill(moment().add(3, 'hours').format("DD/MM/YYYY HH:00"));
 
     await page.locator("#consulta_localidade").click();
-    await page.screenshot({path: "screenshot.png"});
+
+    await page.waitForSelector("#msg_resultado");
+
+    const table = await page.$("#msg_resultado");
+
+    let msg = await table.innerText();
 
     await browser.close();
+
+    msg = msg.replace(/\t/g, " ").split(`\n`);
+    msg = msg.slice(1,msg.length - 1);
+
+    return msg;
+
 }
 
-Colect();
+module.exports = {colect};
