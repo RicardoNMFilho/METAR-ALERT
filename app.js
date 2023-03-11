@@ -1,7 +1,20 @@
-const express = require("express");
-const app = express();
-const PORT = 3000;
+const CronJob = require('cron').CronJob;
+const ColectFile = require(`${__dirname}/src/colector`);
 
-app.listen(PORT, () => {
-    console.log("Funcionando");
-})
+let result;
+
+// Define a tarefa Cron que será executada a cada minuto
+const job = new CronJob('0 * * * * ', function() {
+    ColectFile.colect().then((res) => {
+        if(res.includes("sem_mensagem")){
+            console.log("Mensagem não encontrada");
+        }else{
+            console.log("Mensagem está ok");
+        }
+    }).catch((err) => {
+        console.error(err);
+    });
+    
+});
+
+job.start();

@@ -6,7 +6,7 @@ const colect = async function Colect() {
     const page = await browser.newPage();
     await page.goto('https://www.redemet.aer.mil.br/old/?i=produtos&p=consulta-de-mensagens-opmet');
     
-    await page.locator("#msg_localidade").fill("SBMN");
+    await page.locator("#msg_localidade").fill("SBEG");
     await page.locator("#consulta_recente").click();
 
     await page.locator("#consulta_data_ini").fill(moment().add(3, 'hours').format("DD/MM/YYYY HH:00"));
