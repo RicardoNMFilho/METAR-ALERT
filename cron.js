@@ -4,10 +4,13 @@ const ColectFile = require(`${__dirname}/colector`);
 let result;
 
 // Define a tarefa Cron que será executada a cada minuto
-const job = new CronJob('0 * * * * *', function() {
+const job = new CronJob('0 * * * * ', function() {
     ColectFile.colect().then((res) => {
-        result = res;
-        console.log(result);
+        if(res.includes("sem_mensagem")){
+            console.log("Mensagem não encontrada");
+        }else{
+            console.log("Mensagem está ok");
+        }
     }).catch((err) => {
         console.error(err);
     });
